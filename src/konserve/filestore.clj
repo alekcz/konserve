@@ -753,8 +753,6 @@
 
   (<!! (-keys store))
 
-  (<!! (-get-version store "bar"))
-
   (defn reader-helper [start-byte stop-byte file-name]
     (let [path      (Paths/get file-name (into-array String []))
           ac        (AsynchronousFileChannel/open path (into-array StandardOpenOption [StandardOpenOption/READ]))

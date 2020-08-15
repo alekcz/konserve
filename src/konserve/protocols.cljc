@@ -5,7 +5,6 @@
   "Allows to access a store similar to hash-map in EDN."
   (-exists? [this key] "Checks whether value is in the store.")
   (-get-meta [this key] "Fetch only metadata for the key.")
-  (-get-version [this key] "Fetch version for the key.")
   (-get [this key] "Returns the value stored described by key or nil if the path is not resolvable.")
   (-update-in [this key-vec meta-up-fn up-fn up-fn-args]
     "Updates a position described by key-vec by applying up-fn and storing the result atomically. Returns a vector [old new] of the previous value and the result of applying up-fn (the newly stored value).")
@@ -27,3 +26,9 @@
   "Allows lazy iteration of keys in this store."
   (-keys [this]
     "Return a channel that will continuously yield keys in this store."))
+
+(defprotocol PRawAsyncKeyValueStore
+  "Allows to direct access to data in store while preserve header bytes"
+  (-raw-get-meta [this key] "Fetch only metadata for the key, preserving header bytes.")
+  (-raw-get [this key] "Returns the value stored described by key, preserving header bytes.")
+  (-raw-bget [this key locked-cb] "Calls locked-cb with a platform specific binary representation inside the lock, preserving header bytes."))    
